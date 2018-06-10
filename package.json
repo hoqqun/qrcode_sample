@@ -3,9 +3,9 @@
   "private": true,
   "dependencies": {
     "qrcode-reader": "^1.0.4"
-  }
+  },
   "engines": {
     "yarn": "1.7.0",
-    "node": "9.11.1"
+    "node": "10.4.0"
   }
 }
