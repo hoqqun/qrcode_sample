@@ -13,4 +13,5 @@
 //= require rails-ujs
 //= require activestorage
 //= require turbolinks
+//= require qrcode-reader/dist/index.js
 //= require_tree .

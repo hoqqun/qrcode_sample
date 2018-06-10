@@ -1,5 +1,7 @@
 {
   "name": "qr_test",
   "private": true,
-  "dependencies": {}
+  "dependencies": {
+    "qrcode-reader": "^1.0.4"
+  }
 }

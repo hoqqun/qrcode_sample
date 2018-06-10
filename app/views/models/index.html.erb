@@ -5,6 +5,105 @@
   
   </head>
   <body>
+    <video autoplay style="-webkit-transform: scaleX(-1);" width="400" height="300"></video>
+    <button id="snapshot" onclick="takeSnapshot()">Take snapshot</button>
+    <img src="" width="400" height="300">
+    <canvas style="display:none;" width="300" height="300"></canvas>
+    <input type="button" id="action" value="decode" >
+    <button id="decode" onclick="decode()">Decode!</button>
+
+
+    <h2>Result</h2>
+    <div id="preview"></div>
+    <script type="text/javascript">
+    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || window.navigator.mozGetUserMedia || navigator.msGetUserMedia;
+    window.URL = window.URL || window.webkitURL;
+
+    var video = document.querySelector('video');
+    var canvas = document.querySelector('canvas');
+    var ctx = canvas.getContext('2d');
+    // var localMediaStream;
+
+    navigator.getUserMedia({video: true, audio: false},
+            function (stream) {
+                // video.src = window.URL.createObjectURL(stream);
+                video.srcObject = stream;
+                // localMediaStream = stream;
+            },
+            function (error) {
+                alert(JSON.stringify(error));
+            }
+    );
+
+    function takeSnapshot() {
+        if (video.srcObject) {
+            ctx.drawImage(video, 0, 0, 300, 300);
+            document.querySelector('img').src = canvas.toDataURL('image/webp');
+        }
+    }
+    var snapImage = document.querySelector('img');
+
+    function decode(){
+      var qr = new QrCode()
+      qr.decode()
+    }
+
+    (function() {
+        'use strict';
+        var upload = document.getElementById('upload');
+        var preview = document.getElementById('preview');
+        var qr = new QrCode();
+        qr.callback = function(err, result) {
+          var span = document.querySelector('span') || document.createElement('span');
+          if(result){
+            span.textContent = result;
+          }
+          else{
+            span.textContent = 'Error! See error message in console!';
+            console.error(err);
+          }
+          preview.appendChild(span);
+        }
+        upload.addEventListener('change', function() {
+          for (var i = 0; i < this.files.length; i++) {
+            var file = this.files[i];
+            var imageType = /^image\//;
+            if (!imageType.test(file.type)) {
+              throw new Error('File type not valid');
+            }
+            // Read file
+            var reader = new FileReader();
+            reader.addEventListener('load', function() {
+              // Show as preview image
+              var img = document.querySelector('img') || document.createElement('img');
+              img.src = this.result;
+              preview.appendChild(img);
+              // Analyse code
+              qr.decode(this.result);
+            }.bind(reader), false);
+            reader.readAsDataURL(file);
+          }
+        }, false);
+      })();
+    </script>
+
+<!-- ここにカメラの映像を表示する -->
+    <!-- <video id="preview"></video> -->
+    
+    <!-- ここにQRコードの情報を表示する -->
+    <p id="info"></p>
+    
+    
+    
+    <script>
+      var video = document.querySelector('video')
+      let scanner = new Instascan.Scanner({ video: video });
+      scanner.addListener('scan', function (content) {
+        console.log(content);
+      });
+    </script>
+
+
   <video id="preview"></video>
     <script type="text/javascript">
       let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
