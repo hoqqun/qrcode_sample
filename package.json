@@ -5,7 +5,7 @@
     "qrcode-reader": "^1.0.4"
   }
   "engines": {
-    "yarn": "1.0.4",
+    "yarn": "1.5.1",
     "node": "9.11.1"
   }
 }
