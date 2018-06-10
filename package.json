@@ -4,4 +4,8 @@
   "dependencies": {
     "qrcode-reader": "^1.0.4"
   }
+  "engines": {
+    "yarn": "1.0.4",
+    "node": "9.11.1"
+  }
 }
